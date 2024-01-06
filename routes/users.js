@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const plm = require('passport-local-mongoose')
+require('dotenv').config()
 mongoose.connect(process.env.MONGOURI);
 
 const userSchema = new mongoose.Schema({
