@@ -25,7 +25,7 @@ router.post('/login',passport.authenticate('local',{
 });
 
 //profile routes
-router.get('/profile', function(req,res){
+router.get('/profile',isLoggedIn,function(req,res){
   res.render('profile')
 })
 
@@ -48,8 +48,15 @@ router.post('/register', function(req,res){
 router.get('/logout',function(req,res){
   req.logout(function(err) {
     if (err) { return next(err); }
-    res.redirect('/');
+    res.redirect('/login');
   });
 });
+
+//Auth check middleware for routes
+function isLoggedIn(req,res,next){
+  if(req.isAuthenticated()) return next()
+  res.redirect('/login')
+}
+
 
 module.exports = router;
