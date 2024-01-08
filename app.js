@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const passport = require('passport');
 const expressSession = require('express-session');
+const flash = require('express-flash')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,6 +21,7 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false,
 }));
+app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 passport.serializeUser(usersRouter.serializeUser())

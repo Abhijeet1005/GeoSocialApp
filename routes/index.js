@@ -8,24 +8,28 @@ passport.use(new localStrategy(userModel.authenticate()))
 
 
 router.get('/',function(req,res,next){
-  res.send("This is the homepage")
+  res.redirect('/register')
 })
 
+//login routes
 router.get('/login', function(req,res){
-  res.render('login')
+  res.render('login',{messages: req.flash()})
 })
 
 router.post('/login',passport.authenticate('local',{
   successRedirect: "/profile",
   failureRedirect: "/login",
-  // failureFlash: true   // not implemented flash for now
+  failureFlash: true 
+  
 }),function(req,res){
 });
 
+//profile routes
 router.get('/profile', function(req,res){
   res.render('profile')
 })
 
+// register routes
 router.get('/register', function(req,res){
   res.render('register')
 })
@@ -40,6 +44,7 @@ router.post('/register', function(req,res){
   })
 })
 
+//logout route
 router.get('/logout',function(req,res){
   req.logout(function(err) {
     if (err) { return next(err); }
