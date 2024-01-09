@@ -3,7 +3,8 @@ var router = express.Router();
 const passport = require('passport')
 const localStrategy = require('passport-local') 
 const userModel = require('./users')
-const postModel = require('./posts')
+const postModel = require('./posts');
+const posts = require('./posts');
 passport.use(new localStrategy(userModel.authenticate()))
 
 
@@ -24,8 +25,12 @@ router.post('/login',passport.authenticate('local',{
 });
 
 //profile routes
-router.get('/profile',isLoggedIn,function(req,res){
-  res.render('profile')
+router.get('/profile',isLoggedIn,async function(req,res){
+  // res.render('profile')
+  const user = await userModel.findOne({
+    username: req.session.passport.user
+  }).populate("posts")
+  res.render('profile',{userPosts:user.posts})
 });
 
 //Post creation route
