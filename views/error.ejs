@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .error-container {
+            border: 2px solid #ff0000;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffeeee;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>Error</h1>
+        <% if (typeof error !== 'undefined') { %>
+            <p><%= error.message %></p>
+        <% } else { %>
+            <p>Something went wrong.</p>
+        <% } %>
+        <p><a href="/">Go back to the homepage</a></p>
+    </div>
+</body>
+</html>
