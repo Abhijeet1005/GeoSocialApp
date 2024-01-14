@@ -72,6 +72,10 @@ router.get('/logout',function(req,res){
   });
 });
 
+router.get('/maptest',function(req,res,next){
+  res.render('maptest')
+})
+
 //Auth check middleware for routes
 function isLoggedIn(req,res,next){
   if(req.isAuthenticated()) return next()
