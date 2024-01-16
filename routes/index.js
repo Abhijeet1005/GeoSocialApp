@@ -35,6 +35,7 @@ router.get('/profile',isLoggedIn,async function(req,res){
 
 //Post creation route
 router.post('/post',async function(req,res,next){
+  console.log(req.body.caption, req.body.location)
   //fetch user -> create a post with that user ID and the data provided through form -> save that and then get req at /profile
   const user = await userModel.findOne({
     username: req.session.passport.user
@@ -75,6 +76,10 @@ router.get('/logout',function(req,res){
 router.get('/maptest',function(req,res,next){
   res.render('maptest')
 })
+router.post('/maptest',function(req,res,next){
+  console.log(req.body.location)
+})
+
 
 //Auth check middleware for routes
 function isLoggedIn(req,res,next){

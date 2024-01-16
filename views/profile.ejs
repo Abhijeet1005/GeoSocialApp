@@ -78,33 +78,41 @@
       font-size: small;
     }
 
+    /* Style for the map container */
+    #mapContainer {
+      width: 100%;
+      height: 400px;
+      margin-bottom: 20px;
+    }
+
     /* Style for post IDs */
     .post-ids p {
-      display: inline-block; /* Display each post ID as inline-block */
-      margin-right: 10px; /* Add margin between post IDs */
+      display: inline-block;
+      margin-right: 10px;
     }
   </style>
+
+
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" type="text/javascript"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" type="text/javascript"></script>
+  <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript"></script>
 </head>
 <body>
   <div class="container">
+
+    <div id="mapContainer"></div>
+
     <!-- Post form -->
     <form action="/post" method="post">
+
+      <input type="hidden" name="location" id="locationInput" />
+
       <input required type="text" name="caption" placeholder="Post Caption" class="detail" />
       <br>
-      <input required type="text" name="location" placeholder="Post Location Data" class="detail" />
-      <br>
-      <input type="submit" class="btn int" value="Post" />
-      <br>
-      <div class="signup-link">
-          Want to log out? <a href="/logout">Logout</a>
-      </div>
-    </form>
-    <br>
-    <div class="map-display">
-      
-    </div>
 
-    <!-- Display post IDs side by side -->
+      <input type="submit" class="btn int" value="Post" />
+    </form>
+
     <div class="post-ids">
       <h4>
         <%userPosts.forEach(post => { %>
@@ -112,7 +120,23 @@
         <%})%>
       </h4>
     </div>
-
   </div>
+
+
+  <script>
+    var platform = new H.service.Platform({ apikey: 'API_KEY(not needed for basic ops)' });
+    var defaultLayers = platform.createDefaultLayers();
+    var map = new H.Map(
+      document.getElementById('mapContainer'),
+      defaultLayers.vector.normal.map,
+      { center: { lat: 0, lng: 0 }, zoom: 2 }
+    );
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+    map.addEventListener('tap', function (e) {
+      var coord = map.screenToGeo(e.currentPointer.viewportX, e.currentPointer.viewportY);
+      document.getElementById('locationInput').value = JSON.stringify(coord);
+    });
+  </script>
 </body>
 </html>
