@@ -5,7 +5,10 @@ const localStrategy = require('passport-local')
 const userModel = require('./users')
 const postModel = require('./posts');
 const posts = require('./posts');
+const dotenv = require('dotenv');
 passport.use(new localStrategy(userModel.authenticate()))
+
+dotenv.config();
 
 
 
@@ -30,7 +33,7 @@ router.get('/profile',isLoggedIn,async function(req,res){
   const user = await userModel.findOne({
     username: req.session.passport.user
   }).populate("posts")
-  res.render('profile',{userPosts:user.posts})
+  res.render('profile',{userPosts:user.posts,API_KEY:process.env.HERE_API})
 });
 
 //Post creation route
