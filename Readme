@@ -1,2 +1,0 @@
-Logs: User and post models created, thinking of authentication set up next
-Authentication done with the basic views set up to test the app without having to send requests from postman
